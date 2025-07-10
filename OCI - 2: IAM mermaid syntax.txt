@@ -1,0 +1,57 @@
+A. OCI IAM Core Concepts Map
+This map illustrates the relationships between the fundamental building blocks of the IAM service.
+
+graph TD
+    subgraph "IAM Fundamentals"
+        A(Identity & Access Management) --> B{Authentication};
+        A --> C{Authorization};
+
+        B -- "Answers: Who are you?" --> B1[Username/Password];
+        B --> B2[API Keys];
+        B --> B3[Auth Tokens];
+
+        C -- "Answers: What can you do?" --> D[IAM Policies];
+    end
+
+    subgraph "Organizational Constructs"
+        E(Principals) -- "The 'Who'" --> F[Users];
+        E --> G[Instance Principals];
+
+        H(Compartments) -- "The 'Where' (Groups Resources)" --> I{Isolate for Security};
+        H --> J{Organize by Project/Env};
+        H --> K{Manage Costs};
+
+        F -- "Are placed in" --> L(Groups);
+        L -- "Are granted permissions by" --> D;
+        D -- "Are applied to" --> H;
+    end
+
+
+B. OCI IAM Policy & Best Practices Mind Map
+This mind map breaks down the structure of an IAM policy and highlights the most important setup practices.
+
+mindmap
+  root((OCI IAM Best Practices))
+    ::icon(fa fa-shield-alt)
+    Delegate Administration
+      :Avoid root admin for daily tasks
+      :Create dedicated admin groups
+    Use Compartments
+      :Isolate resources logically
+      :Organize by Project, Env, Dept.
+      :Never use the Root Compartment for resources
+    Enforce MFA
+      :Add extra security layer
+      :Something you know (password)
+      :Something you have (phone app)
+    Policies
+      :Syntax
+      ::"Allow group 'name' to 'verb' 'resource' in 'location'"
+      :Verbs (Privilege Level)
+      ::inspect (least)
+      ::read
+      ::use
+      ::manage (most)
+      :Critical Detail
+      ::IAM service needs individual policies per resource type (users, groups, etc.)
+      ::No "manage iam-family" shortcut!
