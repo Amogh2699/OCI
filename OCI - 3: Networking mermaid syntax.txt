@@ -1,0 +1,58 @@
+A. OCI VCN and Gateways Concept Map
+This map shows the core components of a VCN and how different gateways control traffic flow.
+
+graph TD
+    subgraph "VCN Core Components"
+        A(VCN) --"Has an Address Space (e.g., 10.0.0.0/16)"--> B(CIDR Block);
+        A --"Is divided into one or more"--> C(Subnets);
+        C --> C1[Public Subnet];
+        C --> C2[Private Subnet];
+    end
+
+    subgraph "Gateways (Traffic Control)"
+        C1 --"Connects to Internet via"--> D{Internet Gateway (IGW)};
+        C2 --"Connects Outbound to Internet via"--> E{NAT Gateway};
+        A --"Connects to OCI Services privately via"--> F{Service Gateway};
+        A --"Connects to On-Prem/Other VCNs via"--> G{Dynamic Routing Gateway (DRG)};
+    end
+
+    D --"For Bidirectional Traffic"--> D1((🌐));
+    E --"For Outbound-Only Traffic"--> E1((🔒));
+    F --"Avoids Public Internet"--> F1((☁️));
+    G --"For Private Connections"--> G1((🏢));
+
+B. OCI VCN Routing and Security Mind Map
+This mind map breaks down the key concepts of routing traffic and securing a VCN.
+
+mindmap
+  root((VCN Routing & Security))
+    ::icon(fa fa-network-wired)
+    Routing
+      :Route Tables
+      ::Set of rules for traffic LEAVING the VCN
+      ::Implicit Local Routing (Inside VCN is automatic)
+      ::Explicit Routing (Uses Longest Prefix Match)
+      :Peering & Transit
+      ::Local Peering (LPG)
+      :::2 VCNs, same region
+      ::Remote Peering (DRG)
+      :::2 VCNs, different regions
+      ::Transit Routing (DRG)
+      :::Modern hub for many VCNs
+    Security (Virtual Firewalls)
+      :Security Lists (SL)
+      ::Scope: Subnet
+      ::Granularity: Broad
+      ::Source/Dest: CIDR Block
+      :Network Security Groups (NSG)
+      ::Scope: VNIC (Instance)
+      ::Granularity: Fine-grained
+      ::Source/Dest: CIDR or another NSG
+      ::Modern, application-centric approach
+    Load Balancing
+      :HTTP LB (Layer 7)
+      ::Intelligent, content-based routing
+      ::SSL Termination
+      :Network LB (Layer 4)
+      ::Max performance, ultra-low latency
+      ::For non-HTTP traffic
