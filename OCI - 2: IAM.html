@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI IAM Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        summary {
+            cursor: pointer;
+            list-style: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::before {
+            content: '►';
+            margin-right: 0.5rem;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto max-w-4xl my-8 p-4 sm:p-8 bg-white rounded-2xl shadow-lg">
+        <header class="text-center pb-6 border-b border-gray-200 mb-6">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">OCI IAM Study Guide</h1>
+            <p class="text-lg text-gray-600 mt-2">Identity & Access Management</p>
+        </header>
+
+        <div class="space-y-6">
+            <!-- Section 1: IAM Introduction -->
+            <div class="p-5 bg-white rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Video 3: IAM Introduction</h2>
+                <div class="space-y-4">
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">The Two Pillars: AuthN vs. AuthZ</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Authentication (AuthN):</strong> Who are you? Verifying identity (e.g., username/password).</p>
+                            <p><strong>Authorization (AuthZ):</strong> What can you do? Granting permissions (e.g., allowing a user to create VMs).</p>
+                        </div>
+                    </details>
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Core IAM Components</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Identity Domain:</strong> A container for users and groups; the master directory.</p>
+                            <p><strong>Principals (The "Who"):</strong> Users and Instance Principals (permissions for Compute instances).</p>
+                            <p><strong>Groups:</strong> Collections of users needing the same access.</p>
+                            <p><strong>Compartments:</strong> Logical folders to organize and isolate resources.</p>
+                            <p><strong>OCID (Oracle Cloud ID):</strong> A unique, Oracle-assigned ID for every single cloud resource.</p>
+                        </div>
+                    </details>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+                        <h3 class="font-bold">⭐ Best Practice</h3>
+                        <p class="mt-2">Always assign permissions to <strong>Groups</strong>, not individual Users. Plan your <strong>Compartment</strong> strategy early to keep resources organized.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Compartments Deep Dive -->
+            <div class="p-5 bg-white rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Video 4: Understanding Compartments 📁</h2>
+                <div class="space-y-4">
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Key Characteristics</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Single Home:</strong> A resource lives in only one compartment at a time.</p>
+                            <p><strong>Cross-Compartment Interaction:</strong> Resources in different compartments can communicate.</p>
+                            <p><strong>Global Scope:</strong> Compartments are global and visible in all regions.</p>
+                            <p><strong>Nesting:</strong> Can be nested up to six levels deep.</p>
+                        </div>
+                    </details>
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Why Use Compartments?</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>🔐 Granular Access Control:</strong> Apply IAM policies to a specific compartment.</p>
+                            <p><strong>🗂️ Logical Organization:</strong> Group resources by project, environment, or department.</p>
+                            <p><strong>💰 Cost Management:</strong> Set budgets and quotas on a per-compartment basis.</p>
+                        </div>
+                    </details>
+                     <div class="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+                        <h3 class="font-bold">⭐ Pro Tip</h3>
+                        <p class="mt-2">Avoid placing resources in the <strong>Root Compartment</strong>. Treat it as a container for your other compartments. The security formula is: <strong>Policy + Group + Compartment = Security</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: AuthN and AuthZ -->
+            <div class="p-5 bg-white rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Video 5: IAM Authentication & Authorization</h2>
+                <div class="space-y-4">
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Authentication Methods</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Username & Password:</strong> For interactive console sessions.</p>
+                            <p><strong>API Signing Keys:</strong> For programmatic access (CLI, SDKs).</p>
+                            <p><strong>Auth Tokens:</strong> For third-party APIs that don't support OCI's native authentication.</p>
+                        </div>
+                    </details>
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Authorization with Policies</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Core Principle:</strong> Deny by default. You must explicitly allow permissions.</p>
+                            <p><strong>Syntax:</strong> `Allow group <group_name> to <verb> <resource-type> in <location>`</p>
+                            <p><strong>Verbs (Least to Most Privilege):</strong> `inspect` -> `read` -> `use` -> `manage`</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+            
+            <!-- Section 4: Tenancy Setup Best Practices -->
+            <div class="p-5 bg-white rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Video 7: Tenancy Setup Best Practices</h2>
+                 <div class="bg-green-50 border-l-4 border-green-500 text-green-800 p-4 rounded-r-lg">
+                    <h3 class="font-bold text-lg">The Three Foundational Rules</h3>
+                    <ol class="list-decimal list-inside mt-2 space-y-1">
+                        <li><strong>Delegate Administration:</strong> Don't use the root admin account for daily tasks. Create a dedicated admin group.</li>
+                        <li><strong>Use Dedicated Compartments:</strong> Isolate resources logically. Don't use the root compartment.</li>
+                        <li><strong>Enforce Multi-Factor Authentication (MFA):</strong> Add an extra layer of security for all users.</li>
+                    </ol>
+                </div>
+                <div class="mt-4 bg-red-50 border-l-4 border-red-400 text-red-800 p-4 rounded-r-lg">
+                    <h3 class="font-bold">⭐ Critical Policy Detail</h3>
+                    <p class="mt-2">The IAM service requires <strong>individual policy statements</strong> for each IAM resource type (users, groups, policies, etc.). There is no `manage iam-family` shortcut. Forgetting this is a common reason admins can't manage IAM.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
