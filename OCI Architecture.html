@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple transition for collapsible sections */
+        details > div {
+            transition: all 0.3s ease-in-out;
+        }
+        summary {
+            cursor: pointer;
+            list-style: none; /* Remove default marker */
+        }
+        summary::-webkit-details-marker {
+            display: none; /* Hide marker for Chrome/Safari */
+        }
+        summary::before {
+            content: '►';
+            margin-right: 0.5rem;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto max-w-4xl my-8 p-4 sm:p-8 bg-white rounded-2xl shadow-lg">
+        <header class="text-center pb-6 border-b border-gray-200 mb-6">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Oracle Cloud Infrastructure Guide</h1>
+            <p class="text-lg text-gray-600 mt-2">Modules 1 & 2</p>
+        </header>
+
+        <!-- Tabs -->
+        <div x-data="{ tab: 'architecture' }" class="w-full">
+            <div class="flex border-b border-gray-200">
+                <button @click="tab = 'architecture'" :class="{ 'border-blue-500 text-blue-600': tab === 'architecture', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': tab !== 'architecture' }" class="w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm sm:text-base focus:outline-none transition-colors duration-300">
+                    1. Core Architecture
+                </button>
+                <button @click="tab = 'console'" :class="{ 'border-blue-500 text-blue-600': tab === 'console', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': tab !== 'console' }" class="w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm sm:text-base focus:outline-none transition-colors duration-300">
+                    2. Console Walkthrough
+                </button>
+            </div>
+
+            <!-- Architecture Content -->
+            <div x-show="tab === 'architecture'" class="py-6 space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800">Module 1: OCI Core Architecture</h2>
+                <p>The fundamental physical and logical building blocks of OCI, crucial for designing resilient applications.</p>
+
+                <div class="space-y-4">
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Core Architectural Concepts</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Region:</strong> A localized geographic area (e.g., Ashburn). Consists of one or more ADs and is isolated from other regions.</p>
+                            <p><strong>Availability Domain (AD):</strong> A fault-tolerant, separate data center within a Region. Has its own power, cooling, and network.</p>
+                            <p><strong>Fault Domain (FD):</strong> A grouping of hardware within an AD (like a server rack). Each AD has <strong>three</strong> FDs for anti-affinity.</p>
+                        </div>
+                    </details>
+
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">How to Choose the Right OCI Region</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>1. Latency & Performance:</strong> Choose the region closest to your users.</p>
+                            <p><strong>2. Data Residency & Compliance:</strong> Adhere to local data storage laws (often overrides latency).</p>
+                            <p><strong>3. Service Availability:</strong> Verify needed OCI services are in the chosen region.</p>
+                        </div>
+                    </details>
+
+                     <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Designing for High Availability (HA)</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Level 1 (Within an AD):</strong> Deploy redundant components across different <strong>Fault Domains</strong>.</p>
+                            <p><strong>Level 2 (Across ADs):</strong> Replicate your entire setup across multiple <strong>Availability Domains</strong> for maximum availability and disaster recovery.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+                    <h3 class="font-bold text-lg">⭐ Tips & Tricks</h3>
+                    <div class="mt-2 space-y-2">
+                        <p><strong>Hierarchy:</strong> Region > Availability Domain (AD) > Fault Domain (FD)</p>
+                        <p><strong>The Magic Number:</strong> 3 Fault Domains per Availability Domain.</p>
+                        <p><strong>Anti-Affinity:</strong> The core purpose of FDs, preventing your app instances from being on the same physical hardware.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Console Content -->
+            <div x-show="tab === 'console'" class="py-6 space-y-6">
+                <h2 class="text-2xl font-bold text-gray-800">Module 2: OCI Console Walkthrough</h2>
+                <p>Navigating the primary tool for managing all your OCI cloud resources.</p>
+
+                <div class="space-y-4">
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Core Navigation & Global Header</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>Access:</strong> Log in at `cloud.oracle.com` with Tenancy Name, Username, and Password.</p>
+                            <p><strong>Service Menu (🍔):</strong> Top-left menu to find all OCI services.</p>
+                            <p><strong>Region Selector:</strong> CRITICAL! Always verify you are in the correct region before creating resources.</p>
+                            <p><strong>Search Bar:</strong> Quickly find resources or documentation.</p>
+                        </div>
+                    </details>
+
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Integrated Developer Tools</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600">
+                            <p><strong>>_ Cloud Shell:</strong> A free, pre-authenticated browser-based terminal with the OCI CLI installed. Your best friend for running quick commands.</p>
+                            <p><strong>{ } Code Editor:</strong> An in-browser editor for modifying config files, code, and scripts without leaving the console.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-400 text-green-800 p-4 rounded-r-lg">
+                    <h3 class="font-bold text-lg">⭐ Pro Tips for New Users</h3>
+                    <div class="mt-2 space-y-2">
+                        <p><strong>"Always Check Your Region":</strong> Avoids costly and slow mistakes.</p>
+                        <p><strong>"Cloud Shell is Your Best Friend":</strong> Master it for fast script execution.</p>
+                        <p><strong>"Master the Search Bar":</strong> Faster than navigating the menu.</p>
+                        <p><strong>Bookmark the Health Dashboard:</strong> Your first stop for troubleshooting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AlpineJS for tab functionality -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</body>
+</html>
