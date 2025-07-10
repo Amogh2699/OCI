@@ -1,0 +1,54 @@
+graph TD
+    subgraph OCI Core Architecture
+        A(Region) -- Contains 1+ --> B(Availability Domain - AD);
+        B -- "Contains exactly 3" --> C(Fault Domain - FD);
+    end
+
+    subgraph Key Concepts
+        A --> A1[Localized Geographic Area];
+        B --> B1[Independent Data Center <br> Power, Cooling, Network];
+        C --> C1[Hardware Grouping / Server Rack <br> Provides Anti-Affinity];
+    end
+
+    subgraph High Availability Design
+        D(High Availability) --> E[Level 1: Within Single AD];
+        D --> F[Level 2: Across Multiple ADs <br> (Max Availability / DR)];
+        E -- Uses --> C;
+        F -- Uses --> B;
+    end
+
+
+
+
+
+
+mindmap
+  root((OCI Console))
+    ::icon(fa fa-cloud)
+    Accessing
+      :Tenancy Name
+      :Username
+      :Password
+    Core Navigation
+      :Homepage Dashboard
+      :Service Menu (🍔)
+    Global Header Bar
+      :🔍 Search Bar
+        :Basic Search
+        :Advanced Resource Query
+      :📍 Region Selector (CRITICAL!)
+      :📢 Announcements
+      :❓ Help Menu
+        ::icon(fa fa-life-ring)
+        :Create Support Request
+        :Request Service Limit Increase
+    Integrated Dev Tools
+      : >_ Cloud Shell
+        ::icon(fa fa-terminal)
+        :Pre-authenticated CLI
+      : { } Code Editor
+        ::icon(fa fa-code)
+        :In-browser editing
+    Monitoring
+      :Cost Management
+      :Health Dashboard
