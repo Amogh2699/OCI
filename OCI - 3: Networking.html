@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI Networking Study Guide (Comprehensive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        summary {
+            cursor: pointer;
+            list-style: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::before {
+            content: '►';
+            margin-right: 0.5rem;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        details[open] > summary::before {
+            transform: rotate(90deg);
+        }
+        .prose-custom ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+        .prose-custom ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+        }
+        .prose-custom table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .prose-custom th, .prose-custom td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .prose-custom th {
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto max-w-5xl my-8 p-4 sm:p-8 bg-white rounded-2xl shadow-lg">
+        <header class="text-center pb-6 border-b border-gray-200 mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">OCI Networking Study Guide</h1>
+            <p class="text-lg text-gray-600 mt-2">Comprehensive Version</p>
+        </header>
+
+        <div class="space-y-8">
+            
+            <!-- OCI Networking Module -->
+            <section class="p-6 bg-white rounded-xl shadow-md border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Module 3: OCI Networking</h2>
+                <div class="space-y-6">
+                    <!-- Video 8 -->
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Video 8: Introduction to Virtual Cloud Network (VCN)</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600 prose-custom">
+                            <p>A VCN is a private, software-defined network in an OCI region, providing a secure, isolated environment for your resources. It is regional, highly available, and scalable.</p>
+                            <p><strong>VCN Building Blocks:</strong></p>
+                            <ul>
+                                <li><strong>VCN Address Space (CIDR):</strong> A private IPv4 address block (e.g., 10.0.0.0/16) that defines the network size.</li>
+                                <li><strong>Subnets:</strong> Subdivisions of the VCN's address range where resources are launched. Can be Public (internet-reachable) or Private (not internet-reachable).</li>
+                            </ul>
+                            <p><strong>VCN Gateways (Virtual Routers):</strong></p>
+                            <ul>
+                                <li><strong>🌐 Internet Gateway (IGW):</strong> Provides bidirectional internet connectivity for public subnets.</li>
+                                <li><strong>🔒 NAT Gateway:</strong> Provides unidirectional, outbound-only internet connectivity for private subnets.</li>
+                                <li><strong>☁️ Service Gateway:</strong> Provides private access to public OCI services (e.g., Object Storage) over Oracle's internal network.</li>
+                                <li><strong>🏢 Dynamic Routing Gateway (DRG):</strong> Connects your VCN to on-premises networks (VPN/FastConnect) or other VCNs.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <!-- Video 9 -->
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Video 9: VCN Routing</summary>
+                         <div class="mt-4 pt-4 border-t border-gray-200 space-y-3 text-gray-600 prose-custom">
+                            <p><strong>Route Tables:</strong> A set of rules that tells your VCN where to send traffic destined for outside the VCN. A rule contains a Destination CIDR Block and a Route Target (gateway).</p>
+                            <p><strong>How Routing Works:</strong></p>
+                            <ul>
+                                <li><strong>Implicit Local Routing:</strong> Traffic between subnets inside the same VCN is routed automatically. No rules needed.</li>
+                                <li><strong>Explicit Routing Logic:</strong> For traffic leaving the VCN, the route table is consulted. OCI uses the most specific rule (Longest Prefix Match).</li>
+                            </ul>
+                            <p><strong>Connecting VCNs (VCN Peering):</strong></p>
+                            <ul>
+                                <li><strong>Local Peering (Same Region):</strong> Uses a Local Peering Gateway (LPG) on each VCN for a point-to-point link.</li>
+                                <li><strong>Remote Peering (Different Regions):</strong> Uses a Dynamic Routing Gateway (DRG) on each VCN.</li>
+                            </ul>
+                             <p><strong>Transit Routing with the DRG:</strong> The modern DRG can act as a centralized hub to connect many VCNs, simplifying architecture and avoiding a complex mesh of LPGs.</p>
+                             <table>
+                                 <thead>
+                                     <tr><th>Scenario</th><th>Old/Simple Way</th><th>Modern/Scalable Way</th></tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr><td>2 VCNs, same region</td><td>Local Peering Gateway (LPG)</td><td>Dynamic Routing Gateway (DRG)</td></tr>
+                                     <tr><td>&gt;2 VCNs, same region</td><td>(Complex Mesh of LPGs)</td><td>Dynamic Routing Gateway (DRG)</td></tr>
+                                     <tr><td>2 VCNs, different regions</td><td>Dynamic Routing Gateway (DRG)</td><td>Dynamic Routing Gateway (DRG)</td></tr>
+                                 </tbody>
+                             </table>
+                        </div>
+                    </details>
+                    <!-- Video 10 -->
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Video 10: VCN Security</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-4 text-gray-600 prose-custom">
+                            <div>
+                                <h4 class="font-semibold">Mechanism 1: Security Lists (SLs)</h4>
+                                <p>A virtual firewall at the subnet level. Rules apply to all instances in the subnet. Rules are stateful by default and use CIDR blocks for source/destination.</p>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold">Mechanism 2: Network Security Groups (NSGs)</h4>
+                                <p>A more granular firewall applied to a group of VNICs (instances). The source/destination of a rule can be another NSG, allowing for application-centric security design.</p>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr><th>Feature</th><th>Security List (SL)</th><th>Network Security Group (NSG)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Scope</td><td>Acts on the Subnet</td><td>Acts on the VNIC (Instance)</td></tr>
+                                    <tr><td>Applies to</td><td>All instances in the subnet</td><td>Specific instances you add to it</td></tr>
+                                    <tr><td>Rule Source/Dest</td><td>CIDR Block Only</td><td>CIDR Block or another NSG</td></tr>
+                                    <tr><td>Granularity</td><td>Broad (per-subnet)</td><td>Fine-grained (per-instance)</td></tr>
+                                    <tr><td>Best For</td><td>General network-layer security</td><td>Application-centric, multi-tier security</td></tr>
+                                </tbody>
+                            </table>
+                            <p><strong>Key Takeaway:</strong> For traffic to be allowed, it must be permitted by both the subnet's Security List AND any NSGs the instance is a part of.</p>
+                        </div>
+                    </details>
+                    <!-- Video 11 -->
+                    <details class="bg-gray-50 p-4 rounded-lg">
+                        <summary class="font-semibold text-lg text-gray-700">Video 11: Load Balancer Service & Demo</summary>
+                        <div class="mt-4 pt-4 border-t border-gray-200 space-y-4 text-gray-600 prose-custom">
+                            <p>A load balancer distributes traffic across multiple backend servers to provide High Availability (HA) and Scalability.</p>
+                            <div>
+                                <h4 class="font-semibold">OCI Load Balancer Types</h4>
+                                <ul>
+                                    <li><strong>HTTP Load Balancer (Layer 7):</strong> Understands HTTP/S. Enables intelligent, content-based routing. Can be Flexible (custom bandwidth) or Dynamic (predefined shape).</li>
+                                    <li><strong>Network Load Balancer (Layer 4):</strong> Understands TCP/UDP/ICMP. Offers extreme speed and ultra-low latency.</li>
+                                </ul>
+                                <p><strong>How to Choose:</strong> Use the HTTP LB for routing intelligence and advanced features. Use the Network LB for maximum performance and non-HTTP traffic.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Load Balancer - Demo Walkthrough</h4>
+                                <p><strong>Scenario:</strong> A public load balancer distributing traffic to two web servers in a private subnet.</p>
+                                <ol>
+                                    <li><strong>Part 1: Network Foundation:</strong> Use the VCN Wizard to create a VCN with public and private subnets. Add an ingress rule to the Default Security List to allow HTTP traffic (port 80) from the internet (0.0.0.0/0).</li>
+                                    <li><strong>Part 2: Backend Servers:</strong> Create two compute instances (`web-server-1`, `web-server-2`) in the private subnet. Use a startup script to install Apache and create a unique `index.html` file on each.</li>
+                                    <li><strong>Part 3: Configure Load Balancer:</strong> Create a public Layer 7 Load Balancer. Place it in the public subnet. Configure the backend set with a Weighted Round Robin policy, add the two web servers, and set up an HTTP health check on port 80. Configure a listener for HTTP traffic on port 80.</li>
+                                    <li><strong>Part 4: Testing:</strong> Copy the load balancer's public IP. Pasting it into a browser and refreshing shows the content alternating between "My name is web server 1" and "My name is web server 2", confirming it works.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
